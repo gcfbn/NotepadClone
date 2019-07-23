@@ -609,7 +609,6 @@ public class NotepadClone extends JFrame implements ActionListener
 	{
 		String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());
 		textArea.append(timestamp + " ");
-		textArea.append("twoje obie stare");
 	}
 	
 	private void help()
@@ -652,7 +651,7 @@ public class NotepadClone extends JFrame implements ActionListener
 		JOptionPane.showMessageDialog(this, "Notepad\n" 
 											+ "Version: 1.0\n"
 											+ "Author: Bartosz Mêkarski\n"
-											+ "Source Code: \n", // <-- put link to source code on GitHub
+											+ "Source Code: https://github.com/gcfbn/NotepadClone\n",
 										"About Me", JOptionPane.INFORMATION_MESSAGE); 
 	}
 
