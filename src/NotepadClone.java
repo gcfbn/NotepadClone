@@ -70,7 +70,7 @@ public class NotepadClone extends JFrame implements ActionListener
 	private JMenuItem itemFont;
 	private JMenuItem itemHelp, itemAbout;
 		
-	Notepad()
+	NotepadClone()
 	{
 		setSize(1000, 600);
 		setTitle("Notepad");
@@ -579,7 +579,6 @@ public class NotepadClone extends JFrame implements ActionListener
 							replacements++;
 							textArea.replaceRange(toReplaceFor, index, index + toFind.length());
 							start = index + toFind.length() + 1;
-							text = textArea.getText();
 						}
 						if (replacements == 0)
 							JOptionPane.showMessageDialog(replaceWindow, "Can't find \"" + toFind + "\".", "Notepad", JOptionPane.ERROR_MESSAGE);
