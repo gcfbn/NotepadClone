@@ -3,6 +3,12 @@ import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.TextArea;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -33,6 +39,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -60,6 +67,7 @@ public class NotepadClone extends JFrame implements ActionListener
 	private String fileName = null;
 	private String fileDirectory = null;
 	private boolean isEdited = false;
+	private Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 	
 	private JScrollPane scrollPane;
 	private JTextArea textArea;
@@ -69,6 +77,8 @@ public class NotepadClone extends JFrame implements ActionListener
 	private JMenuItem itemFind, itemReplace, itemTimeDate;
 	private JMenuItem itemFont;
 	private JMenuItem itemHelp, itemAbout;
+	private JPopupMenu popupMenu;
+	private JMenuItem itemCopy, itemCut, itemPaste;
 		
 	NotepadClone()
 	{
@@ -120,6 +130,12 @@ public class NotepadClone extends JFrame implements ActionListener
 		itemHelp = new JMenuItem("Help");
 		itemHelp.setMnemonic('H');
 		
+		popupMenu = new JPopupMenu();
+		
+		itemCopy = new JMenuItem("Copy");
+		itemCut = new JMenuItem("Cut");
+		itemPaste = new JMenuItem("Paste");
+		
 		
 //				===EVENTS AND SHORTCUTS===
 		textArea.getDocument().addDocumentListener(new DocumentListener()
@@ -167,6 +183,10 @@ public class NotepadClone extends JFrame implements ActionListener
 		
 		itemAbout.addActionListener(this);
 		
+		itemCopy.addActionListener(this);
+		itemCut.addActionListener(this);
+		itemPaste.addActionListener(this);
+		
 //				===ADD COMPONENTS===
 		add(scrollPane, BorderLayout.CENTER);
 		add(menuMain, BorderLayout.PAGE_START);
@@ -190,6 +210,11 @@ public class NotepadClone extends JFrame implements ActionListener
 		menuMain.add(menuHelp);
 		menuHelp.add(itemHelp);
 		menuHelp.add(itemAbout);
+		
+		popupMenu.add(itemCopy);
+		popupMenu.add(itemCut);
+		popupMenu.add(itemPaste);
+		textArea.setComponentPopupMenu(popupMenu);
 	}
 	
 //				===CALL EVENTS===
@@ -217,6 +242,12 @@ public class NotepadClone extends JFrame implements ActionListener
 			help();
 		else if (source == itemAbout)
 			aboutProgram();
+		else if (source == itemCopy)
+			copy();
+		else if (source == itemCut)
+			cut();
+		else if (source == itemPaste)
+			paste();
 	}
 	
 //				===FUNCTIONS CALLED BY EVENTS===
@@ -652,6 +683,36 @@ public class NotepadClone extends JFrame implements ActionListener
 											+ "Author: Bartosz Mêkarski\n"
 											+ "Source Code: https://github.com/gcfbn/NotepadClone\n",
 										"About Me", JOptionPane.INFORMATION_MESSAGE); 
+	}
+	
+	private void copy()
+	{
+		String selectedText = textArea.getSelectedText();
+		Transferable transferable = new StringSelection(selectedText);
+		clipboard.setContents(transferable, null);
+	}
+	
+	private void cut()
+	{
+		String selectedText = textArea.getSelectedText();
+		Transferable transferable = new StringSelection(selectedText);
+		clipboard.setContents(transferable, null);
+		textArea.replaceRange("", textArea.getSelectionStart(), textArea.getSelectionEnd());
+	}
+	
+	private void paste()
+	{
+		Transferable transferable = clipboard.getContents(null);
+		String textToPaste;
+		try 
+		{
+			textToPaste = (String)transferable.getTransferData(DataFlavor.stringFlavor);
+			textArea.insert(textToPaste, textArea.getCaretPosition());
+		} 
+		catch (UnsupportedFlavorException | IOException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private void clearFile()
