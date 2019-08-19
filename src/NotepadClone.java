@@ -438,18 +438,21 @@ public class NotepadClone extends JFrame implements ActionListener
 		JButton findButton, cancelButton;
 		JCheckBox startAtBeginningBox;
 		
-//				set new window in the middle of the main window
+//create new dialog window
 		findWindow = new JDialog();
 		{
+			findWindow.setSize(300,150);
+			findWindow.setLocationRelativeTo(NotepadClone.this);
 			
-			int findWindowWidth = 300, findWindowHeight = 150;
+			/*int findWindowWidth = 300, findWindowHeight = 150;
 			int findWindowX = getX() + getWidth()/2 - findWindowWidth/2;
 			int findWindowY = getY() + getHeight()/2 - findWindowHeight/2;
-			findWindow.setBounds(findWindowX, findWindowY, findWindowWidth, findWindowHeight);
+			findWindow.setBounds(findWindowX, findWindowY, findWindowWidth, findWindowHeight);*/
 			
 			findWindow.setTitle("Finding");
 			findWindow.setResizable(false);
 			findWindow.setVisible(true);
+			findWindow.setLayout(null);
 		}
 		
 //				===CREATE COMPONENTS===
@@ -517,18 +520,21 @@ public class NotepadClone extends JFrame implements ActionListener
 		JButton replaceNextButton, replaceAllButton, cancelButton;
 		JCheckBox startAtBeginningBox;
 		
-//				set new window in the middle of the main window
+//create new dialog window
 		replaceWindow = new JDialog();
 		{
-			replaceWindow.setLayout(new BorderLayout());
-			int replaceWindowWidth = 400, replaceWindowHeight = 200;
+			replaceWindow.setSize(400,200);
+			replaceWindow.setLocationRelativeTo(NotepadClone.this);
+			
+			/*int replaceWindowWidth = 400, replaceWindowHeight = 200;
 			int replaceWindowX = getX() + getWidth()/2 - replaceWindowWidth/2;
 			int replaceWindowY = getY() + getHeight()/2 - replaceWindowHeight/2;
-			replaceWindow.setBounds(replaceWindowX, replaceWindowY, replaceWindowWidth, replaceWindowHeight);
+			replaceWindow.setBounds(replaceWindowX, replaceWindowY, replaceWindowWidth, replaceWindowHeight);*/
 			
 			replaceWindow.setTitle("Replacing");
 			replaceWindow.setResizable(false);
 			replaceWindow.setVisible(true);
+			replaceWindow.setLayout(null);
 		}
 		
 //				===CREATE COMPONENTS===
