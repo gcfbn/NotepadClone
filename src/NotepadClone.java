@@ -438,16 +438,11 @@ public class NotepadClone extends JFrame implements ActionListener
 		JButton findButton, cancelButton;
 		JCheckBox startAtBeginningBox;
 		
-//create new dialog window
+		//create new dialog window
 		findWindow = new JDialog();
 		{
 			findWindow.setSize(300,150);
 			findWindow.setLocationRelativeTo(NotepadClone.this);
-			
-			/*int findWindowWidth = 300, findWindowHeight = 150;
-			int findWindowX = getX() + getWidth()/2 - findWindowWidth/2;
-			int findWindowY = getY() + getHeight()/2 - findWindowHeight/2;
-			findWindow.setBounds(findWindowX, findWindowY, findWindowWidth, findWindowHeight);*/
 			
 			findWindow.setTitle("Finding");
 			findWindow.setResizable(false);
@@ -520,16 +515,11 @@ public class NotepadClone extends JFrame implements ActionListener
 		JButton replaceNextButton, replaceAllButton, cancelButton;
 		JCheckBox startAtBeginningBox;
 		
-//create new dialog window
+		//create new dialog window
 		replaceWindow = new JDialog();
 		{
 			replaceWindow.setSize(400,200);
 			replaceWindow.setLocationRelativeTo(NotepadClone.this);
-			
-			/*int replaceWindowWidth = 400, replaceWindowHeight = 200;
-			int replaceWindowX = getX() + getWidth()/2 - replaceWindowWidth/2;
-			int replaceWindowY = getY() + getHeight()/2 - replaceWindowHeight/2;
-			replaceWindow.setBounds(replaceWindowX, replaceWindowY, replaceWindowWidth, replaceWindowHeight);*/
 			
 			replaceWindow.setTitle("Replacing");
 			replaceWindow.setResizable(false);
@@ -580,14 +570,13 @@ public class NotepadClone extends JFrame implements ActionListener
 							start = 0;
 							startAtBeginningBox.setSelected(false);
 						}
-							
 						else
 							start = textArea.getCaretPosition();
 						int index = text.indexOf(toFind, start);
 						if (index != -1)
 						{
 							textArea.replaceRange(toReplaceFor, index, index + toFind.length());
-							textArea.setCaretPosition(index + toFind.length());
+							textArea.setCaretPosition(index + toReplaceFor.length());
 						}
 						else
 							JOptionPane.showMessageDialog(replaceWindow, "Can't find \"" + toFind + "\".", "Notepad", JOptionPane.ERROR_MESSAGE);
@@ -613,14 +602,17 @@ public class NotepadClone extends JFrame implements ActionListener
 						while (text.indexOf(toFind, start) != -1)
 						{
 							int index = text.indexOf(toFind, start);
-							replacements++;
 							textArea.replaceRange(toReplaceFor, index, index + toFind.length());
-							start = index + toFind.length() + 1;
+							text = textArea.getText();
+							start = index + toReplaceFor.length();
+							replacements++;
 						}
 						if (replacements == 0)
 							JOptionPane.showMessageDialog(replaceWindow, "Can't find \"" + toFind + "\".", "Notepad", JOptionPane.ERROR_MESSAGE);
+						else if (replacements == 1)
+							JOptionPane.showMessageDialog(replaceWindow, "Replaced " + 1 + " occurence.", "Notepad", JOptionPane.INFORMATION_MESSAGE);
 						else
-							JOptionPane.showMessageDialog(replaceWindow, "Replaced " + replacements + " occurrings.", "Notepad", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(replaceWindow, "Replaced " + replacements + " occurences.", "Notepad", JOptionPane.INFORMATION_MESSAGE);
 					}
 				});
 		
