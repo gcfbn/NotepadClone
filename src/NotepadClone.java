@@ -1,7 +1,12 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.TextArea;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -39,6 +44,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -89,6 +95,7 @@ public class NotepadClone extends JFrame implements ActionListener
 		
 //				===CREATE COMPONENTS===
 		textArea = new JTextArea();
+		textArea.setFont(new Font ("Arial", Font.PLAIN, 12));
 		scrollPane = new JScrollPane(textArea);
 		menuMain = new JMenuBar();
 
@@ -178,6 +185,8 @@ public class NotepadClone extends JFrame implements ActionListener
 		itemTimeDate.addActionListener(this);
 		itemTimeDate.setAccelerator(KeyStroke.getKeyStroke("F5"));
 		
+		itemFont.addActionListener(this);
+		
 		itemHelp.addActionListener(this);
 		itemHelp.setAccelerator(KeyStroke.getKeyStroke("F1"));
 		
@@ -238,6 +247,8 @@ public class NotepadClone extends JFrame implements ActionListener
 			replace();
 		else if (source == itemTimeDate)
 			addTimestamp();
+		else if (source == itemFont)
+			changeFont();
 		else if (source == itemHelp)
 			help();
 		else if (source == itemAbout)
@@ -637,6 +648,28 @@ public class NotepadClone extends JFrame implements ActionListener
 	{
 		String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());
 		textArea.append(timestamp + " ");
+	}
+	
+	private void changeFont()
+	{
+		FontChooser fontChooser = new FontChooser(textArea.getFont(), textArea.getForeground());
+		fontChooser.setLocationRelativeTo(this);
+		fontChooser.addWindowListener(new WindowAdapter() 
+		{
+			@Override
+			public void windowClosed(WindowEvent e)
+			{
+				/*System.out.println(e.getSource().getClass().getName());
+				System.out.println("DUUUPA");
+				System.out.println(fontChooser.choosenOption);*/
+				if (fontChooser.choosenOption == FontChooser.OK_OPTION)
+				{
+					textArea.setFont(fontChooser.getSelectedFont());
+					textArea.setForeground(fontChooser.getSelectedColor());
+				}
+				fontChooser.dispose();
+			}
+		});
 	}
 	
 	private void help()
