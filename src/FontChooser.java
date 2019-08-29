@@ -101,7 +101,7 @@ public class FontChooser extends JDialog implements ActionListener
 		sizeCombo = new JComboBox<Integer>(fontSizes);
 		sizeCombo.setSelectedItem((Integer)currentFont.getSize());
 		sizeCombo.setFont(new Font("Arial", Font.PLAIN, 16));
-		sizeCombo.setEditable(true);
+		sizeCombo.setEditable(false);
 		constraints.gridx = 1;
 		constraints.gridy = 2;
 		constraints.ipadx = 30;
