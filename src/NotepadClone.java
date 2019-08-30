@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.TextArea;
 import java.awt.Toolkit;
@@ -50,6 +51,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.SpringLayout.Constraints;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
@@ -451,33 +453,51 @@ public class NotepadClone extends JFrame implements ActionListener
 		
 		//create new dialog window
 		findWindow = new JDialog();
-		{
-			findWindow.setSize(300,150);
-			findWindow.setLocationRelativeTo(NotepadClone.this);
-			
-			findWindow.setTitle("Finding");
-			findWindow.setResizable(false);
-			findWindow.setVisible(true);
-			findWindow.setLayout(null);
-		}
+		findWindow.setLocationRelativeTo(NotepadClone.this);
+		findWindow.setTitle("Finding");
+		findWindow.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		//findWindow.setResizable(false);
+
+		findWindow.setLayout(new GridBagLayout());
+		
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.insets = new Insets(3,5,3,5);
 		
 //				===CREATE COMPONENTS===
 		findLabel = new JLabel("Find: ");
 		findLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-		findLabel.setBounds(10, 20, 50, 15);
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		findWindow.add(findLabel, constraints);
 		
 		textToFindField = new JTextField();
-		textToFindField.setBounds(45, 15, 230, 25);
+		constraints.gridwidth = 2;
+		constraints.gridx = 1;
+		constraints.gridy = 0;
+		findWindow.add(textToFindField, constraints);
 		
 		findButton = new JButton("Find next");
-		findButton.setBounds(25, 70, 120, 40);
+		constraints.gridwidth = 1;
+		constraints.gridx = 0;
+		constraints.gridy = 2;
+		//constraints.anchor = GridBagConstraints.NONE;
+		findWindow.add(findButton, constraints);
 		
 		cancelButton = new JButton("Cancel");
-		cancelButton.setBounds(150, 70, 120, 40);
+		constraints.gridx = 2;
+		constraints.gridy = 2;
+		findWindow.add(cancelButton, constraints);
 		
 		startAtBeginningBox = new JCheckBox("Start at the beginning");
-		startAtBeginningBox.setBounds(25, 45, 200, 20);
+		constraints.fill = GridBagConstraints.CENTER;
+		constraints.gridwidth = 2;
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		findWindow.add(startAtBeginningBox, constraints);
 		
+		findWindow.pack();
+		findWindow.setVisible(true);
 		
 //				===SET EVENTS===
 		findButton.addActionListener(new ActionListener()
@@ -509,13 +529,6 @@ public class NotepadClone extends JFrame implements ActionListener
 					@Override
 					public void actionPerformed(ActionEvent e) {findWindow.dispose();}
 		});
-		
-//			===ADD COMPONENTS===
-		findWindow.add(findLabel);
-		findWindow.add(textToFindField);
-		findWindow.add(findButton);
-		findWindow.add(cancelButton);
-		findWindow.add(startAtBeginningBox);
 	}
 	
 	private void replace()
@@ -529,41 +542,68 @@ public class NotepadClone extends JFrame implements ActionListener
 		//create new dialog window
 		replaceWindow = new JDialog();
 		{
-			replaceWindow.setSize(400,200);
 			replaceWindow.setLocationRelativeTo(NotepadClone.this);
 			
 			replaceWindow.setTitle("Replacing");
-			replaceWindow.setResizable(false);
-			replaceWindow.setVisible(true);
-			replaceWindow.setLayout(null);
+			replaceWindow.setLocationRelativeTo(NotepadClone.this);
+			replaceWindow.setLayout(new GridBagLayout());
+			replaceWindow.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		}
+		
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.insets = new Insets(3,5,3,5);
 		
 //				===CREATE COMPONENTS===
 		findLabel = new JLabel("Find: ");
 		findLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-		findLabel.setBounds(20, 20, 100, 20);
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		replaceWindow.add(findLabel, constraints);
 		
 		textToFindField = new JTextField();
-		textToFindField.setBounds(110, 15, 270, 30);
+		constraints.gridx = 1;
+		constraints.gridy = 0;
+		constraints.gridwidth = 2;
+		replaceWindow.add(textToFindField, constraints);
 		
 		replaceForLabel = new JLabel("Replace for: ");
 		replaceForLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-		replaceForLabel.setBounds(20, 60, 100, 20);
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		constraints.gridwidth = 1;
+		replaceWindow.add(replaceForLabel, constraints);
 		
 		textToReplaceForField = new JTextField();
-		textToReplaceForField.setBounds(110, 55, 270, 30);
+		constraints.gridx = 1;
+		constraints.gridy = 1;
+		constraints.gridwidth = 2;
+		replaceWindow.add(textToReplaceForField, constraints);
 		
 		replaceNextButton = new JButton("Replace next");
-		replaceNextButton.setBounds(10, 120, 110, 50);
+		constraints.gridx = 0;
+		constraints.gridy = 3;
+		constraints.gridwidth = 1;
+		replaceWindow.add(replaceNextButton, constraints);
 		
 		replaceAllButton = new JButton("Replace all");
-		replaceAllButton.setBounds(140, 120, 110, 50);
+		constraints.gridx = 1;
+		constraints.gridy = 3;
+		replaceWindow.add(replaceAllButton, constraints);
 		
 		cancelButton = new JButton("Cancel");
-		cancelButton.setBounds(270, 120, 110, 50);
+		constraints.gridx = 2;
+		constraints.gridy = 3;
+		replaceWindow.add(cancelButton, constraints);
 		
 		startAtBeginningBox = new JCheckBox("Start at the beginning");
-		startAtBeginningBox.setBounds(15, 90, 200, 20);
+		constraints.gridx = 0;
+		constraints.gridy = 2;
+		constraints.gridwidth = 2;
+		replaceWindow.add(startAtBeginningBox, constraints);
+		
+		replaceWindow.pack();
+		replaceWindow.setVisible(true);
 		
 //				===SET EVENTS===
 		replaceNextButton.addActionListener(new ActionListener() 
@@ -632,16 +672,6 @@ public class NotepadClone extends JFrame implements ActionListener
 					@Override
 					public void actionPerformed(ActionEvent arg0) {replaceWindow.dispose();}
 				});
-		
-//				===ADD COMPONENTS===
-		replaceWindow.add(findLabel);
-		replaceWindow.add(textToFindField);
-		replaceWindow.add(replaceForLabel);
-		replaceWindow.add(textToReplaceForField);
-		replaceWindow.add(replaceNextButton);
-		replaceWindow.add(replaceAllButton);
-		replaceWindow.add(cancelButton);
-		replaceWindow.add(startAtBeginningBox);
 	}
 	
 	private void addTimestamp()
