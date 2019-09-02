@@ -37,6 +37,7 @@ import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -83,7 +84,7 @@ public class NotepadClone extends JFrame implements ActionListener
 	private JMenu menuFile, menuEdit, menuFormat, menuHelp;
 	private JMenuItem itemNew, itemOpen, itemSave, itemSaveAs, itemExit;
 	private JMenuItem itemFind, itemReplace, itemTimeDate;
-	private JMenuItem itemFont;
+	private JMenuItem itemFont, itemBackground;
 	private JMenuItem itemHelp, itemAbout;
 	private JPopupMenu popupMenu;
 	private JMenuItem itemCopy, itemCut, itemPaste;
@@ -98,6 +99,8 @@ public class NotepadClone extends JFrame implements ActionListener
 //				===CREATE COMPONENTS===
 		textArea = new JTextArea();
 		textArea.setFont(new Font ("Arial", Font.PLAIN, 12));
+		textArea.setForeground(Color.BLACK);
+		textArea.setCaretColor(Color.BLACK);
 		scrollPane = new JScrollPane(textArea);
 		menuMain = new JMenuBar();
 
@@ -133,6 +136,9 @@ public class NotepadClone extends JFrame implements ActionListener
 		
 		itemFont = new JMenuItem("Font...");
 		itemFont.setMnemonic('F');
+		
+		itemBackground = new JMenuItem("Background...");
+		itemBackground.setMnemonic('B');
 
 		menuHelp = new JMenu("Help");
 
@@ -189,6 +195,8 @@ public class NotepadClone extends JFrame implements ActionListener
 		
 		itemFont.addActionListener(this);
 		
+		itemBackground.addActionListener(this);
+		
 		itemHelp.addActionListener(this);
 		itemHelp.setAccelerator(KeyStroke.getKeyStroke("F1"));
 		
@@ -218,6 +226,8 @@ public class NotepadClone extends JFrame implements ActionListener
 		
 		menuMain.add(menuFormat);
 		menuFormat.add(itemFont);
+		menuFormat.add(itemBackground);
+		
 		menuMain.add(menuHelp);
 		menuHelp.add(itemHelp);
 		menuHelp.add(itemAbout);
@@ -251,6 +261,8 @@ public class NotepadClone extends JFrame implements ActionListener
 			addTimestamp();
 		else if (source == itemFont)
 			changeFont();
+		else if (source == itemBackground)
+			changeBackground();
 		else if (source == itemHelp)
 			help();
 		else if (source == itemAbout)
@@ -700,6 +712,11 @@ public class NotepadClone extends JFrame implements ActionListener
 				fontChooser.dispose();
 			}
 		});
+	}
+	
+	private void changeBackground()
+	{
+		textArea.setBackground(JColorChooser.showDialog(this, "Background", textArea.getBackground()));
 	}
 	
 	private void help()
